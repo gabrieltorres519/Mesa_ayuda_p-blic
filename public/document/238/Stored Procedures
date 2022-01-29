@@ -1,0 +1,252 @@
+	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_insert_ticket
+    (
+        IN _usu_id INT(11),
+        IN _cat_id INT(11),
+        IN _tick_titulo VARCHAR(250),
+        IN _tick_descript MEDIUMTEXT
+    )
+    BEGIN
+    	INSERT INTO tm_ticket (tick_id, usu_id, cat_id, tick_titulo, tick_descrip,tick_estado,fech_crea,usu_asig,fech_asig, est) 
+        	VALUES (NULL, _usu_id, _cat_id, _tick_titulo, _tick_descript, 'Abierto',now(),NULL,NULL, '1');
+    END
+    //
+    
+    
+    
+    
+
+	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_insert_ticket_2
+    (
+        IN _tick_id INT(11)
+        IN _usu_id INT(11),
+        IN _cat_id INT(11),
+        IN _tick_titulo VARCHAR(250),
+        IN _tick_descript MEDIUMTEXT,
+        IN _tick_estado INT(11),
+        IN _fech_crea ,
+        IN _usu_asig,
+        IN fech_asig,
+        IN est
+    )
+    BEGIN
+    	INSERT INTO tm_ticket (tick_id, usu_id, cat_id, tick_titulo, tick_descrip,tick_estado,fech_crea,usu_asig,fech_asig, est) 
+        	VALUES (NULL, _usu_id, _cat_id, _tick_titulo, _tick_descript, 'Abierto',now(),NULL,NULL, '1');
+    END
+    //
+    
+    
+    
+    USE andercode_helpdesk;
+
+CALL sp_listar_ticket_x_usu();
+
+
+	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_insert_ticketdetalle
+    (
+        IN _tickd_id ,
+        IN _tick_id,
+        IN _usu_id,
+        IN _tickd_descrip,
+        IN _fech_crea,
+        IN _est
+    )
+    BEGIN
+    	INSERT INTO tm_ticket (tick_id, usu_id, cat_id, tick_titulo, tick_descrip,tick_estado,fech_crea,usu_asig,fech_asig, est) 
+        	VALUES (NULL, _usu_id, _cat_id, _tick_titulo, _tick_descript, 'Abierto',now(),NULL,NULL, '1');
+    END
+    //
+    
+    
+    
+    
+    
+	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_insert_ticketdetalle_cerrar
+    (
+        IN _tickd_id INT(11),
+        IN _tick_id INT(11),
+        IN _usu_id INT(11),
+        IN _tickd_descrip MEDIUMTEXT,
+        IN _fech_crea DATETIME,
+        IN _est INT(11)
+    )
+    BEGIN
+    	INSERT INTO td_ticketdetalle (tickd_id,tick_id,usu_id,tickd_descrip,fech_crea,est) 
+        	VALUES (_tickd_id, _tick_id, _usu_id, _tickd_descrip, _fech_crea, _est);
+    END
+    //
+    
+    
+    
+    
+    
+ 	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_update_ticket
+    (
+        IN _tick_id INT(11)
+    )
+    BEGIN
+    	UPDATE `tm_ticket`  SET  `tick_estado` = 'Cerrado',
+        WHERE tick_id = _tick_id 
+    END
+    //
+    
+    
+    
+    	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_update_ticket
+    (
+        IN _tick_id INT(11)
+    )
+    BEGIN
+    	UPDATE `tm_ticket`  SET  `tick_estado` = 'Cerrado'
+        WHERE    tick_id = _tick_id;
+    END
+    //
+    
+    
+    
+    USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_get_ticket_total()
+    BEGIN
+    	SELECT COUNT(*) as TOTAL FROM tm_ticket;
+    END
+    //
+    
+    
+    
+    
+        	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_update_ticket_asignacion
+    (
+        IN _tick_id INT(11),
+        IN _usu_asig INT(11)
+    )
+    BEGIN
+    	UPDATE `tm_ticket`  SET  `usu_asig` = _usu_asig, `fech_asig` = now()
+        WHERE    tick_id = _tick_id;
+    END
+    //
+    
+    
+    
+    
+     	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_login
+    (
+        IN _usu_correo VARCHAR(150),
+        IN _usu_pass VARCHAR(150),
+        IN _rol_id INT(11)
+    )
+    BEGIN
+    	SELECT * FROM tm_usuario WHERE usu_correo =_usu_correo AND usu_pass = MD5(_usu_pass) AND rol_id = _rol_id AND est = 1;
+    END
+    //
+    
+    
+    USE andercode_helpdesk;
+
+CALL sp_login('gabrieltorres9909@gmail.com','password2',1);
+
+
+
+
+	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_insert_usuario
+    (
+        IN _usu_id INT(11),
+        IN _usu_nom VARCHAR(150),
+        IN _usu_ape VARCHAR(150),
+        IN _usu_correo VARCHAR(150),
+        IN _usu_pass VARCHAR(150),
+        IN _rol_id INT(11),
+        IN _fech_crea DATETIME,
+        IN _fech_modi DATETIME,
+        IN _fech_elim DATETIME,
+        IN _est INT(11)
+    )
+    BEGIN
+  	INSERT INTO tm_usuario (usu_id, usu_nom, usu_ape, usu_correo, usu_pass, rol_id, fech_crea, fech_modi, fech_elim, est) 
+    	VALUES (_usu_id, _usu_nom, _usu_ape, _usu_correo, MD5(_usu_pass), _rol_id, _fech_crea, _fech_modi, _fech_elim, _est); 
+    END
+    //
+    
+    
+    
+    
+    
+    
+    
+    	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_update_usuario
+    (
+        IN _usu_id INT(11),
+        IN _usu_nom VARCHAR(150),
+        IN _usu_ape VARCHAR(150),
+        IN _usu_correo VARCHAR(150),
+        IN _usu_pass VARCHAR(150),
+        IN _rol_id INT(11)
+    )
+    BEGIN
+     UPDATE `tm_usuario` set
+                    `usu_nom` = _usu_nom,
+                    `usu_ape` = _usu_ape,
+                    `usu_correo` = _usu_correo,
+                    `usu_pass` = MD5(_usu_pass),
+                    `rol_id` = _rol_id
+                    WHERE
+                    usu_id = _usu_id;
+    END
+    // 
+    
+    
+    
+    
+    
+        	USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_delete_usuario
+    (
+        IN _usu_id INT(11)
+    )
+    BEGIN
+     UPDATE `tm_usuario` set
+                    `est` = 0,
+                    `fech_elim` = now()
+                    WHERE
+                    usu_id = _usu_id;
+    END
+    //     
+    
+    
+      USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_get_usuario()
+    BEGIN
+    	SELECT * FROM tm_usuario WHERE est=1;
+    END
+    //
+    
+    
+    
+     USE andercode_helpdesk;
+    DELIMITER //
+    CREATE PROCEDURE sp_get_usuario_x_rol()
+    BEGIN
+    	SELECT * FROM tm_usuario WHERE est=1 AND rol_id=2;
+    END
+    //
