@@ -44,7 +44,7 @@
                 $mail->Host = "smtp.gmail.com";
                 $mail->SMTPAuth = true;
                 $mail->Username = "sicaphelpdeskmailer@gmail.com";
-                $mail->Password = 'ChessNoobButLover';
+                $mail->Password = '*********';
                 $mail->Port = 465; //587
                 $mail->SMTPSecure = "ssl"; //tls
 
